@@ -1,0 +1,12 @@
+domains
+    numer = integer.
+    list = integer*.
+predicates
+	magicfunc(list, list)
+	sum(list, numer)
+clauses
+	sum([Head|[]],Head).
+	sum([L1|L2], Out):- sum(L1, A), sum(L2, B), Out=A+B.
+	magicfunc([L1|L2], [A, B]):- sum(L1, A), sum(L2, B).
+goal
+	magicfunc([[1, 2],[3, 4]], X).
