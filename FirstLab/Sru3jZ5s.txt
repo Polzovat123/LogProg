@@ -1,0 +1,67 @@
+domains
+    name = symbol.
+    gen = symbol.
+    age = integer.
+predicates
+    parent(name, name)
+    human(name)
+    family(name, symbol)
+    gender(name, symbol)
+    father(name, name)
+    mother(name, name)
+    daughter(name, name)
+    son(name, name)
+    grandfather(name, name)
+    grandmother(name, name)
+    man(name)
+    brother(name, name)
+    woman(name)
+    uncle(name, name)
+    predecessor(name, name)
+    oneKnee(name, name)
+    cancelChild(name, name)
+clauses
+  parent("odin", "bob").
+  parent("odin", "sergey").
+  
+  parent("wname", "bob").
+  parent("wname", "sergey").
+ 
+  parent("bob", "elena").
+  parent("alina", "elena").
+  
+  parent("sergey", "kostya").
+  parent("masha", "kostya").
+ 
+  parent("kostya", "jon").
+  
+  human("odin").
+  human("bob").
+  human("wname").
+  human("sergey").
+  human("alina").
+  
+  gender("odin", "m").
+  gender("wname", "w").
+  gender("bob", "m").
+  gender("sergey", "m").
+  gender("alina", "w").
+          
+  family(X, Y):- parent(X, Y).
+  man(Y):- gender(Y, "m").
+  woman(X):- gender(X, "w").
+  father(X, Y):- man(X), parent(X, Y).
+  mother(X, Y):- woman(X), parent(X, Y).
+  daughter(X, Y):- woman(Y), parent(X, Y).
+  son(X, Y):- man(Y), parent(X, Y).
+  brother(X, Y):- man(X), parent(Z, X), parent(Z, Y).
+  uncle(X, Y):- man(X), parent(Z, Y), brother(X, Z).
+  grandfather(X, Z):- man(X), parent(X, Y), parent(Y, Z).
+  grandmother(X, Z):- woman(X), parent(X,Y), parent(Y,Z).
+  predecessor(X, Y):- parent(X, Y).
+  predecessor(X, Y):- parent(X, Z), predecessor(Z, Y).
+  cancelChild(X, Y):- parent(X, Z), parent(Y, Z).
+  oneKnee(X, Y):- cancelChild(X, Y).
+  oneKnee(X, Y):- parent(X, Z), parent(Y, M), oneKnee(Z, M).
+goal
+  oneKnee(X, "alina").

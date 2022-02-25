@@ -1,0 +1,16 @@
+domains
+x = integer
+predicates
+r(x)
+r1(x)
+r2(x)
+clauses
+r1(1).
+r2(2).
+r(X) :- !, r1(X), write("agree first definition").
+r(X) :- r2(X), write("agree second definition").
+goal
+r(1).
+% r(1): agree first definition
+% r(2): agree second definition
+
