@@ -1,12 +1,33 @@
 domains
-    numer = integer.
-    list = integer*.
-predicates
-	magicfunc(list, list)
+    numer = integer
+    list = integer*
+    list2 = list*
+    list3 = list2*
+Predicates
+	magic(list3, list)
+	%sum3(list3, numer)
+	sum2(list2, numer)
 	sum(list, numer)
 clauses
+	sum([], 0).
 	sum([Head|[]],Head).
-	sum([L1|L2], Out):- sum(L1, A), sum(L2, B), Out=A+B.
-	magicfunc([L1|L2], [A, B]):- sum(L1, A), sum(L2, B).
+	sum([A|L2], Out):- sum(L2, B), Out=A+B, !.
+	sum2([], 0).
+	sum2([L1|[]],Out):- sum(L1, V), Out = V, !.
+	sum2([L1|L2], Out):- sum(L1, A), sum2(L2, B), Out=A+B, !.
+	%sum3([L1|[]], X):- sum2(L1, X).
+	%sum3([L1|L2], Out):- sum2(L1, A), sum3(L2, B),Out=A+B, !.
+	magic([], []).
+	magic([L1|[]], L):- sum2(L1, V), L=[V], !.
+	magic([L1|L2], L):- sum2(L1, A), magic(L2, B),L=[A|B], !.
 goal
-	magicfunc([[1, 2],[3, 4]], X).
+	%sum2([[1,2,3],[4,5,6,7],[]], X).
+%	magic([[[1,2,3],[4,5]],[[6, 7],[8]],[[1,2,3],[4,5,6,7],[]], [[]]], X).
+	%magic([], X).
+	%magic([[[1,2,3],[4,5]], []], X).
+	magic([[[1, 2]], [[],[1]], [],[[], [4,5]]], X).
+%	sum2([[1,2,3],[4,5]], X).
+%[[[1,2,3],[4,5]],[[6, 7]]]
+%[[1,2,3],[4,5,6,7],[]]
+%l1 = [[1,2,3],[4,5]], l2 = [[6, 7]]
+%sum2^: l1 = [1,2,3]
