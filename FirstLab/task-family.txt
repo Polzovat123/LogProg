@@ -19,10 +19,13 @@ predicates
     uncle(name, name)
     predecessor(name, name)
     oneKnee(name, name)
+    oku(name, name)
+    okd(name, name)
     cancelChild(name, name)
 clauses
   parent("odin", "bob").
   parent("odin", "sergey").
+  parent("A", "masha").
   
   parent("wname", "bob").
   parent("wname", "sergey").
@@ -60,8 +63,16 @@ clauses
   grandmother(X, Z):- woman(X), parent(X,Y), parent(Y,Z).
   predecessor(X, Y):- parent(X, Y).
   predecessor(X, Y):- parent(X, Z), predecessor(Z, Y).
+
+  cancelChild(X, Y):- parent(Z, X), parent(Z, Y).
   cancelChild(X, Y):- parent(X, Z), parent(Y, Z).
-  oneKnee(X, Y):- cancelChild(X, Y).
-  oneKnee(X, Y):- parent(X, Z), parent(Y, M), oneKnee(Z, M).
+
+  oneKnee(X, Y):- oku(X, Y).
+  oneKnee(X, Y):- okd(X, Y).
+  oku(X, Y):- cancelChild(X, Y).
+  oku(X, Y):- parent(S, X), parent(T, Y), oku(S, T). 
+  
+  okd(X, Y):- cancelChild(X, Y).
+  okd(X, Y):-parent(X, S), parent(Y, T), okd(S, T).
 goal
-  oneKnee(X, "alina").
+  oneKnee("A", X).
