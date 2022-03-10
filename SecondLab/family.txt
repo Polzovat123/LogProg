@@ -1,0 +1,20 @@
+database
+parent(symbol, symbol)
+gender(symbol, symbol)
+domains
+name = symbol.
+predicates
+%gender(symbol, symbol)
+ins(symbol, symbol)
+upload()
+sav()
+ask(symbol, symbol)
+remove(symbol)
+clauses
+upload():-consult("D:/parent.txt").
+ins(X, Y):-not(parent(X, Y)) ,asserta(parent(X, Y)).
+sav():- save("D:/output.txt").
+remove(X):- retractall(parent(X, _)), retractall(parent(_, X)), retractall(gender(X, _)).
+ask(X, Y):- gender(X, Y), write(X, " ", Y), nl.
+goal
+upload(), remove("kostya"), sav().
