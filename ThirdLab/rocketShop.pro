@@ -10,8 +10,6 @@ positive(symbol, symbol)
 negative(symbol, symbol)
 remember(symbol, symbol, symbol)
 clear_facts
-goal
-run.
 clauses
 run :-write("Write only true or false!\n"), rocket_is(X), !,
 	write("\n System reccomend youre use ", X), nl, clear_facts.
@@ -85,3 +83,5 @@ rocket_is("Galaxy"):-
 	it_is("military"),
 	positive("have", "traitors"),
 	positive("have", "expensive"),  !.
+goal
+run.
